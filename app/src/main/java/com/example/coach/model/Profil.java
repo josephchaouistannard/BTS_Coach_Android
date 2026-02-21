@@ -1,10 +1,18 @@
 package com.example.coach.model;
 
+import java.util.Date;
+
 public class Profil {
     private static final int MIN_FEMME = 25;
     private static final int MAX_FEMME = 30;
     private static final int MIN_HOMME = 15;
     private static final int MAX_HOMME = 20;
+
+    public Date getDateMesure() {
+        return dateMesure;
+    }
+
+    private Date dateMesure;
     private static final String[] MESSAGE = {"trop faible", "normal", "trop élevé"};
 
     /**
@@ -15,6 +23,23 @@ public class Profil {
         return MESSAGE[this.indice];
     }
     private static final String[] IMAGE = {"maigre", "normal", "graisse"};
+
+    public Integer getPoids() {
+        return poids;
+    }
+
+    public Integer getTaille() {
+        return taille;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public Integer getSexe() {
+        return sexe;
+    }
+
     private Integer poids;
     private Integer taille;
     private Integer age;
@@ -46,13 +71,14 @@ public class Profil {
      * @param age
      * @param sexe
      */
-    public Profil(Integer poids, Integer taille, Integer age, Integer sexe) {
+    public Profil(Integer poids, Integer taille, Integer age, Integer sexe, Date date) {
         this.poids = poids;
         this.taille = taille;
         this.age = age;
         this.sexe = sexe;
         this.img = calculImg();
         this.indice = calculIndice();
+        this.dateMesure = date;
     }
 
     private double calculImg() {

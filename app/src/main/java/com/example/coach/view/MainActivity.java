@@ -89,6 +89,18 @@ public class MainActivity extends AppCompatActivity implements ICalculView {
 
     }
 
+    @Override
+    public void remplirChamps(Integer poids, Integer taille, Integer age, Integer sexe) {
+        txtPoids.setText(poids.toString());
+        txtTaille.setText(taille.toString());
+        txtAge.setText(age.toString());
+        if (sexe == 1) {
+            rdHomme.setChecked(true);
+        } else {
+            rdFemme.setChecked(true);
+        }
+    }
+
     private void btnCalc_clic() {
         Integer poids = 0;
         Integer age = 0;
