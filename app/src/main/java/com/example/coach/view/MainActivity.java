@@ -45,9 +45,10 @@ public class MainActivity extends AppCompatActivity implements ICalculView {
     }
 
     private void init() {
-        presenter = new CalculPresenter(this);
+        presenter = new CalculPresenter(this, this);
         chargeObjetsGraphiques();
         btnCalc.setOnClickListener(v -> btnCalc_clic());
+        presenter.chargerDernierProfil();
     }
 
     @Override
@@ -119,7 +120,6 @@ public class MainActivity extends AppCompatActivity implements ICalculView {
         } else {
             presenter.creerProfil(poids, taille, age, sexe);
         }
-
-
     }
+
 }
