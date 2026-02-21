@@ -52,7 +52,7 @@ public class Profil {
     public double getImg() {
         return img;
     }
-    private double img;
+    private transient double img;
 
     /**
      * Getter sur le nom de l'image
@@ -62,7 +62,7 @@ public class Profil {
         return IMAGE[this.indice];
     }
 
-    private int indice;
+    private transient int indice;
 
     /**
      * Constructeur de classe
