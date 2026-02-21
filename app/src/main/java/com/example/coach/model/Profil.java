@@ -6,6 +6,11 @@ public class Profil {
     private static final int MIN_HOMME = 15;
     private static final int MAX_HOMME = 20;
     private static final String[] MESSAGE = {"trop faible", "normal", "trop élevé"};
+
+    /**
+     * Getter sur message
+     * @return
+     */
     public String getMessage() {
         return MESSAGE[this.indice];
     }
@@ -15,17 +20,32 @@ public class Profil {
     private Integer age;
     private Integer sexe;
 
+    /**
+     * Getter sur l'IMG
+     * @return
+     */
     public double getImg() {
         return img;
     }
     private double img;
 
+    /**
+     * Getter sur le nom de l'image
+     * @return
+     */
     public String getImage() {
         return IMAGE[this.indice];
     }
 
     private int indice;
 
+    /**
+     * Constructeur de classe
+     * @param poids
+     * @param taille
+     * @param age
+     * @param sexe
+     */
     public Profil(Integer poids, Integer taille, Integer age, Integer sexe) {
         this.poids = poids;
         this.taille = taille;
@@ -56,6 +76,10 @@ public class Profil {
         return 2;
     }
 
+    /**
+     * Retourne si l'IMG est dans la zone normale
+     * @return
+     */
     public boolean normal() {
         return this.indice == 1;
     }

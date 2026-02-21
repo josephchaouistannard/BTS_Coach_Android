@@ -30,6 +30,9 @@ public class MainActivity extends AppCompatActivity implements ICalculView {
     private Button btnCalc;
     private CalculPresenter presenter;
 
+    /**
+     * Charge les objets graphiques
+     */
     private void chargeObjetsGraphiques() {
         txtPoids = (EditText) findViewById(R.id.txtPoids);
         txtTaille = (EditText) findViewById(R.id.txtTaille);
@@ -60,6 +63,13 @@ public class MainActivity extends AppCompatActivity implements ICalculView {
         init();
     }
 
+    /**
+     * Affiche resultat de IMG
+     * @param image
+     * @param img
+     * @param message
+     * @param normal
+     */
     @Override
     public void afficherResultat(String image, double img, String message, boolean normal) {
         int imageId = getResources().getIdentifier(image, "drawable", getPackageName());
