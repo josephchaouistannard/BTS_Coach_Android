@@ -20,7 +20,7 @@ import com.example.coach.R;
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
     @Rule
-    public ActivityScenarioRule activityRule = new ActivityScenarioRule<>(MainActivity.class);
+    public ActivityScenarioRule activityRule = new ActivityScenarioRule<>(CalculActivity.class);
 
     @Test
     public void testCalculIMG(){

@@ -2,7 +2,11 @@ package com.example.coach.presenter;
 
 import android.util.Log;
 
+import androidx.appcompat.widget.ThemedSpinnerAdapter;
+
 import com.example.coach.api.CoachApi;
+import com.example.coach.api.HelperApi;
+import com.example.coach.api.ICallbackApi;
 import com.example.coach.api.IRequestApi;
 import com.example.coach.api.ResponseApi;
 import com.example.coach.contract.ICalculView;
@@ -36,56 +40,54 @@ public class CalculPresenter {
      */
     public void creerProfil(Integer poids, Integer taille, Integer age, Integer sexe) {
         Profil profil = new Profil(poids, taille, age, sexe, new Date());
+        vue.afficherResultat(
+                profil.getImage(),
+                profil.getImg(),
+                profil.getMessage(),
+                profil.normal()
+        );
         String profilJson = CoachApi.getGson().toJson(profil);
-        IRequestApi api = CoachApi.getRetrofit().create(IRequestApi.class);
-        Call<ResponseApi<Integer>> call = api.creerProfil(profilJson);
-        call.enqueue(new Callback<ResponseApi<Integer>>() {
+        HelperApi.call(HelperApi.getApi().creerProfil(profilJson), new ICallbackApi<Integer>() {
             @Override
-            public void onResponse(Call<ResponseApi<Integer>> call, Response<ResponseApi<Integer>> response) {
-                Log.d("API", "code : " + response.body().getCode() +
-                        " message : " + response.body().getMessage() +
-                        " result : " + response.body().getResult()
-                );
-                if (response.isSuccessful() && response.body().getResult() == 1) {
-                    vue.afficherResultat(
-                            profil.getImage(),
-                            profil.getImg(),
-                            profil.getMessage(),
-                            profil.normal()
-                    );
-                } else {
-                    Log.e("API", "Erreur API: " + response.code());
+            public void onSuccess(Integer result) {
+                if (result == 1) {
+                    vue.afficherMessage("profil enregistré");
+                }else{
+                    vue.afficherMessage("échec enregistrement profil");
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponseApi<Integer>> call, Throwable throwable) {
-                Log.e("API", "Échec d'accès à l'api", throwable);
+            public void onError() {
+                vue.afficherMessage("échec enregistrement profil");
             }
         });
     }
 
     public void chargerDernierProfil() {
-        IRequestApi api = CoachApi.getRetrofit().create(IRequestApi.class);
-        Call<ResponseApi<List<Profil>>> call = api.getProfils();
-        call.enqueue(new Callback<ResponseApi<List<Profil>>>() {
+        HelperApi.call(HelperApi.getApi().getProfils(), new ICallbackApi<List<Profil>>() {
             @Override
-            public void onResponse(Call<ResponseApi<List<Profil>>> call, Response<ResponseApi<List<Profil>>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    List<Profil> profils = response.body().getResult();
+            public void onSuccess(List<Profil> result) {
+                if(result != null){
+                    List<Profil> profils = result;
                     if (profils != null && !profils.isEmpty()) {
-                        Profil dernier = Collections.max(
-                                profils,
+                        // récupérer le plus récent
+                        Profil dernier = Collections.max(profils,
                                 (p1, p2) -> p1.getDateMesure().compareTo(p2.getDateMesure())
                         );
-                        vue.remplirChamps(dernier.getPoids(), dernier.getTaille(), dernier.getAge(), dernier.getSexe());
+                        vue.remplirChamps(dernier.getPoids(), dernier.getTaille(),
+                                dernier.getAge(), dernier.getSexe());
+                    } else {
+                        vue.afficherMessage("échec récuperation dernier profil");
                     }
+                } else {
+                    vue.afficherMessage("échec récuperation dernier profil");
                 }
             }
 
             @Override
-            public void onFailure(Call<ResponseApi<List<Profil>>> call, Throwable throwable) {
-                Log.e("API", "Échec d'accès à l'api", throwable);
+            public void onError() {
+                vue.afficherMessage("échec récuperation dernier profil");
             }
         });
 
